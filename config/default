@@ -1,0 +1,30 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/pathfinder/;
+
+	# Add index.php to the list if you are using PHP
+	index index.php index.html index.htm index.nginx-debian.html;
+
+	server_name localhost;
+
+	location / {
+		index index.php;
+		try_files $uri $uri/ /index.php?$query_string;
+	}
+
+	# PHP socket configuration
+	location ~ \.php$ {
+	    try_files $uri =404;
+	    fastcgi_pass 127.0.0.1:9000;
+	    fastcgi_index index.php;
+	    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+	    # CGI caching
+	    #fastcgi_cache MYAPP;
+	    #fastcgi_cache_valid 200 60m;
+
+	    include fastcgi_params;
+	}
+}

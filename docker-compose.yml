@@ -1,0 +1,21 @@
+version: '2.0'
+
+services:
+    db:
+        image: mysql:5.7
+        volumes:
+            - database:/var/lib/mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: somepassword
+            MYSQL_DATABASE: auth
+            MYSQL_USER: auth
+            MYSQL_PASSWORD: somepassword
+    auth:
+        build: .
+        ports:
+            - "8000:80"
+            - "8050:8050"
+
+volumes:
+    database: {}
