@@ -30,6 +30,11 @@ run_build() {
         docker-compose build --no-cache
 }
 
+run_clean() {
+		docker container stop $(docker container ls -aq)
+		docker rm -vf $(docker ps -a -q)
+}
+
 case "$command" in 
     start)
         run_start
@@ -55,4 +60,11 @@ case "$command" in
         run_build
         run_start
         echo "Container rebuilt and restarted"
+		exit 0
+		;;
+	clean)
+		run_clean
+		echo "Containers cleaned up"
+		exit 0
+		;;
 esac

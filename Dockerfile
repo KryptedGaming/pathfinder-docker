@@ -16,11 +16,13 @@ RUN apt-get update && \
 	php7.2-mysql \ 
 	php7.2-mbstring \ 
 	php7.2-curl \ 
+	php7.2-redis \
 	gzip \ 
 	wget \
 	nginx \ 
 	zip \ 
 	git \ 
+	redis-server \
 	curl 
 
 # COPY PATHFINDER
@@ -40,4 +42,11 @@ RUN composer install -d /var/www/pathfinder/
 COPY ./config/default /etc/nginx/sites-available/
 COPY ./config/www.conf /etc/php/7.2/fpm/pool.d/
 
-CMD service php7.2-fpm start && nginx -g "daemon off;"
+# CONFIGURE REDIS
+COPY ./config/redis.conf /etc/redis/
+RUN chmod 755 /etc/redis/redis.conf
+
+# CONFIGURE PHP7.2-FPM
+COPY ./config/php.ini /etc/php/7.2/fpm/
+
+CMD service php7.2-fpm start && service redis-server start && nginx -g "daemon off;"

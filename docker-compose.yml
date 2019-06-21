@@ -5,6 +5,7 @@ services:
         image: mysql:5.7
         volumes:
             - database:/var/lib/mysql
+            - ./config/eve_universe.sql:/docker-entrypoint-initdb.d/dump.sql
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: pathfinder
