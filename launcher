@@ -19,7 +19,7 @@ if [ -z "$command" ]; then
 fi
 
 run_start() {
-        docker-compose up 
+        docker-compose up -d 
 }
 
 run_stop() {
