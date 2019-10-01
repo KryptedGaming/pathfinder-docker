@@ -32,6 +32,8 @@ RUN chown -R www-data:www-data /var/www/pathfinder
 RUN mkdir /tmp/cache/
 RUN chmod -R 766 /tmp/cache/ /var/www/pathfinder/logs/
 COPY ./config/pathfinder/* /var/www/pathfinder/app/
+RUN mkdir /var/www/pathfinder/conf/
+COPY ./config/pathfinder.ini /var/www/pathfinder/conf/
 
 # COMPOSER INSTALL
 RUN	curl --silent --show-error https://getcomposer.org/installer | php 
