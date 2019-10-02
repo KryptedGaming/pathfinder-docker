@@ -51,4 +51,9 @@ RUN chmod 755 /etc/redis/redis.conf
 # CONFIGURE PHP7.2-FPM
 COPY ./config/php.ini /etc/php/7.2/fpm/
 
+
+# SET UP CRONJOB
+COPY ./default_crontab /home/
+RUN crontab /home/default_crontab
+
 CMD service php7.2-fpm start && service redis-server start && nginx -g "daemon off;"
