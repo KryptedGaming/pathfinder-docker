@@ -8,6 +8,7 @@ Dockerfile for running [Pathfinder](https://github.com/exodus4d/pathfinder), the
 * Update your host nginx configuration (or apache) to ProxyPass your port (e.g 8000) 
 
 # Setup
+* Unzip the eve_universe.sql file. (`cd config`), (`unzip eve_universe.sql.zip`)
 * Start Pathfinder container (`./launcher start`)
 * Go to domain.com/map and run through setup
 * Enter the database container (`docker exec -it {name} /bin/bash`)
