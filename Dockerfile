@@ -57,3 +57,4 @@ COPY ./default_crontab /home/
 RUN crontab /home/default_crontab
 
 CMD service php7.2-fpm start && service redis-server start && nginx -g "daemon off;"
+CMD service cron start
