@@ -3,7 +3,7 @@ function replace_setting() {
     sed -i -E "s/$1/$2/g" $3
 }
 echo "Replacing settings" 
-replace_setting "^SERVER\s*=\s*.*$" "SERVER = PRODUCTION" "/var/www/pathfinder/app/environment.ini"
+replace_setting "^SERVER\s*=\s*.*$" "SERVER = ${SERVER}" "/var/www/pathfinder/app/environment.ini"
 replace_setting "^DB_PF_DNS\s*=\s*.*$" "DB_PF_DNS                         =   mysql:host=db;port=3306;" "/var/www/pathfinder/app/environment.ini"
 replace_setting "^DB_UNIVERSE_DNS\s*=\s*.*$" "DB_UNIVERSE_DNS                         =   mysql:host=db;port=3306;" "/var/www/pathfinder/app/environment.ini"
 replace_setting "^URL\s*=\s*.*$" "URL                         =   ${SCHEME}${URL}" "/var/www/pathfinder/app/environment.ini"
@@ -18,7 +18,7 @@ replace_setting "CCP_SSO_SECRET_KEY\s*=\s*.*" "CCP_SSO_SECRET_KEY          =   $
 replace_setting "CHARACTER\s*=\s*.*" "CHARACTER          =   ${CHARACTER}" "/var/www/pathfinder/app/pathfinder.ini"
 replace_setting "CORPORATION\s*=\s*.*" "CORPORATION          =   ${CORPORATION}" "/var/www/pathfinder/app/pathfinder.ini"
 replace_setting "ALLIANCE\s*=\s*.*" "ALLIANCE          =   ${ALLIANCE}" "/var/www/pathfinder/app/pathfinder.ini"
-
+replace_setting "domain.com" "${URL}" "/etc/nginx/sites-available/default"
 if [ "${SETUP}" != "True" ]; then 
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi 
