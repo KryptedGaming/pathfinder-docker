@@ -25,13 +25,7 @@ RUN apt-get update && \
 	redis-server \
 	curl 
 
-# COPY PATHFINDER
-RUN git clone https://github.com/exodus4d/pathfinder.git /var/www/pathfinder
-COPY ./config/composer.json /root/.composer/config.json
-RUN chown -R www-data:www-data /var/www/pathfinder
-RUN mkdir /tmp/cache/
-RUN chmod -R 766 /tmp/cache/ /var/www/pathfinder/logs/
-COPY ./config/pathfinder/* /var/www/pathfinder/app/
+# COPY ./config/pathfinder/* /var/www/pathfinder/app/
 RUN mkdir /var/www/pathfinder/conf/
 COPY ./config/pathfinder.ini /var/www/pathfinder/conf/
 
@@ -51,9 +45,16 @@ RUN chmod 755 /etc/redis/redis.conf
 # CONFIGURE PHP7.2-FPM
 COPY ./config/php.ini /etc/php/7.2/fpm/
 
+# COPY PATHFINDER
+ARG VERSION 
+RUN git clone --branch $VERSION https://github.com/exodus4d/pathfinder.git /var/www/pathfinder
+COPY ./config/composer.json /root/.composer/config.json
+RUN chown -R www-data:www-data /var/www/pathfinder
+RUN mkdir /tmp/cache/
+RUN chmod -R 766 /tmp/cache/ /var/www/pathfinder/logs/
 
 # SET UP CRONJOB
-COPY ./default_crontab /home/
+COPY ./config/default_crontab /home/
 RUN crontab /home/default_crontab
 
 CMD service php7.2-fpm start && service redis-server start && nginx -g "daemon off;"

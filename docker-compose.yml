@@ -5,12 +5,15 @@ services:
         image: mysql:5.7
         volumes:
             - database:/var/lib/mysql
-            - ./config/eve_universe.sql:/docker-entrypoint-initdb.d/dump.sql
         restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: pathfinder
+          MYSQL_DATABASE: "eve_universe"
+          MYSQL_USER: "${MYSQL_USER}"
+          MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+
     pathfinder:
-        build: .
+        image: kryptedgaming/pathfinder
+        env_file: .env
         ports:
             - "8000:80"
 
