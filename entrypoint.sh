@@ -24,7 +24,8 @@ if [ "${SETUP}" != "True" ]; then
 fi 
 
 mkdir /var/www/pathfinder/conf/
-cat "[PATHFINDER]"" >> /var/www/pathfinder/conf/pathfinder.ini"
+
+cat "[PATHFINDER]" >> /var/www/pathfinder/conf/pathfinder.ini
 cat "NAME                        =   ${NAME}"
 
 crontab /home/default_crontab
