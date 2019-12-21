@@ -1,17 +1,14 @@
 Dockerfile for running [Pathfinder](https://github.com/exodus4d/pathfinder), the mapping tool for EVE Online.
 
-# Configuration
-* Edit `config/default`, replace `localhost` with your server IP
-* Edit `docker-compose.yml`, feel free to change `MYSQL_ROOT_PATHFINDER`
-* Configure all files in `config/pathfinder` per standard pathfinder installation
-* **Optional:** Uncomment and change any values in `config/pathfinder.ini` for overwriting values in the default pathfinder.ini file
-* Update your host nginx configuration (or apache) to ProxyPass your port (e.g 8000) 
+# Installation
+1. Clone `docker-compose.yml` file (`wget https://raw.githubusercontent.com/KryptedGaming/pathfinder-docker/master/docker-compose.yml`)
+2. Clone the example `.env` file (`wget https://raw.githubusercontent.com/KryptedGaming/pathfinder-docker/master/.env`)
+3. Fill out the `.env` file and start up your instance with `docker-compose up -d`
 
 # Setup
-* Unzip the eve_universe.sql file. (`cd config`), (`unzip eve_universe.sql.zip`)
-* Start Pathfinder container (`./launcher start`)
-* Go to domain.com/map and run through setup
-* Enter the database container (`docker exec -it {name} /bin/bash`)
-* Import the SQL export (`mysql -u root -p eve_universe < /docker-entrypoint-initdb.d/dump.sql`)
+1. Navigate to your Pathfinder page, go through setup.
+2. Create the databases, import from ESI at the bottom.
+3. Restart your container with `SETUP=False`
+4. You're live!
 
 Feel free to contribute, there are many improvements that still need to be made.
