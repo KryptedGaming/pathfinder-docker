@@ -22,6 +22,11 @@ replace_setting "domain.com" "${URL}" "/etc/nginx/sites-available/default"
 if [ "${SETUP}" != "True" ]; then 
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi 
+
+mkdir /var/www/pathfinder/conf/
+cat "[PATHFINDER]"" >> /var/www/pathfinder/conf/pathfinder.ini"
+cat "NAME                        =   ${NAME}"
+
 crontab /home/default_crontab
 service php7.2-fpm start
 service redis-server start
