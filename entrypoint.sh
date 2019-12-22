@@ -56,6 +56,13 @@ echo "SEND_RALLY_DISCORD_ENABLED      =   ${CorpSEND_RALLY_DISCORD_ENABLED}" >> 
 echo "SEND_RALLY_Mail_ENABLED         =   ${CorpSEND_RALLY_Mail_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 
 
+if [ "${AddAdminChar}" != "False" ]; then 
+ echo "[PATHFINDER.ROLES]" >> /var/www/pathfinder/conf/pathfinder.ini
+ echo "CHARACTER.0.ID = ${AdminCharID}" >> /var/www/pathfinder/conf/pathfinder.ini
+ echo "CHARACTER.0.ROLE = SUPER" >> /var/www/pathfinder/conf/pathfinder.ini
+fi 
+
+
 crontab /home/default_crontab
 service php7.2-fpm start
 service redis-server start
