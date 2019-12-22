@@ -23,6 +23,10 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi 
 
+if ["${UseRedis}" == "True"]; then
+ replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
+fi
+
 echo "[PATHFINDER]" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "NAME                        =   ${NAME}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "" >> /var/www/pathfinder/conf/pathfinder.ini
@@ -38,6 +42,20 @@ echo "SEND_RALLY_SLACK_ENABLED                        =   ${PrivateSEND_RALLY_SL
 echo "SEND_HISTORY_DISCORD_ENABLED                        =   ${PrivateSEND_HISTORY_DISCORD_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "SEND_RALLY_DISCORD_ENABLED                        =   ${PrivateSEND_RALLY_DISCORD_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "SEND_RALLY_Mail_ENABLED                        =   ${PrivateSEND_RALLY_Mail_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "[PATHFINDER.MAP.CORPORATION]" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "LIFETIME                        =   ${CorpLIFETIME}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "MAX_COUNT                       =   ${CorpMAX_COUNT}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "MAX_SHARED                      =   ${CorpMAX_SHARED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "MAX_SYSTEMS                     =   ${CorpMAX_SYSTEMS}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "LOG_ACTIVITY_ENABLED            =   ${CorpLOG_ACTIVITY_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "LOG_HISTORY_ENABLED             =   ${CorpLOG_HISTORY_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_HISTORY_SLACK_ENABLED      =   ${CorpSEND_HISTORY_SLACK_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_RALLY_SLACK_ENABLED        =   ${CorpSEND_RALLY_SLACK_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_HISTORY_DISCORD_ENABLED    =   ${CorpSEND_HISTORY_DISCORD_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_RALLY_DISCORD_ENABLED      =   ${CorpSEND_RALLY_DISCORD_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_RALLY_Mail_ENABLED         =   ${CorpSEND_RALLY_Mail_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+
+
 
 
 crontab /home/default_crontab
