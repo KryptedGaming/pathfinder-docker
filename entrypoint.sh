@@ -23,10 +23,22 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi 
 
-mkdir /var/www/pathfinder/conf/
+echo "[PATHFINDER]" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "NAME                        =   ${NAME}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "[PATHFINDER.MAP.PRIVATE]" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "LIFETIME                        =   ${PrivateLIFETIME}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "MAX_COUNT                       =   ${PrivateMAX_COUNT}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "MAX_SHARED                        =   ${PrivateMAX_SHARED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "MAX_SYSTEMS                        =   ${PrivateMAX_SYSTEMS}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "LOG_ACTIVITY_ENABLED                        =   ${PrivateLOG_ACTIVITY_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "LOG_HISTORY_ENABLED                        =   ${PrivateLOG_HISTORY_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_HISTORY_SLACK_ENABLED                        =   ${PrivateSEND_HISTORY_SLACK_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_RALLY_SLACK_ENABLED                        =   ${PrivateSEND_RALLY_SLACK_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_HISTORY_DISCORD_ENABLED                        =   ${PrivateSEND_HISTORY_DISCORD_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_RALLY_DISCORD_ENABLED                        =   ${PrivateSEND_RALLY_DISCORD_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "SEND_RALLY_Mail_ENABLED                        =   ${PrivateSEND_RALLY_Mail_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 
-cat "[PATHFINDER]" >> /var/www/pathfinder/conf/pathfinder.ini
-cat "NAME                        =   ${NAME}"
 
 crontab /home/default_crontab
 service php7.2-fpm start

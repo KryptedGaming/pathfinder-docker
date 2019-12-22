@@ -12,7 +12,8 @@ services:
           MYSQL_USER: "${MYSQL_USER}"
 
     pathfinder:
-        image: kryptedgaming/pathfinder:latest
+        #image: ntclark/pathfinder:latest
+        build: ./
         env_file: .env
         ports:
             - "8000:80"
