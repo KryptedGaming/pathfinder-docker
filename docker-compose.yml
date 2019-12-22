@@ -12,7 +12,7 @@ services:
           MYSQL_USER: "${MYSQL_USER}"
 
     pathfinder:
-        image: ntclark/pathfinder:latest
+        image: pathfinder:latest
         build: ./
         env_file: .env
         ports:

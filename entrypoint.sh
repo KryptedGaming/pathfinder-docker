@@ -23,7 +23,7 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi 
 
-if ["${UseRedis}" == "True"]; then
+if ["${UseRedis}" != "False"]; then
  replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
 fi
 
@@ -57,7 +57,7 @@ echo "SEND_RALLY_Mail_ENABLED         =   ${CorpSEND_RALLY_Mail_ENABLED}" >> /va
 
 
 
-
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
 crontab /home/default_crontab
 service php7.2-fpm start
 service redis-server start
