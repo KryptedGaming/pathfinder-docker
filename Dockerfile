@@ -62,7 +62,6 @@ RUN crontab /home/default_crontab
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh 
 
-RUN echo "Hello there!"
 
 ENTRYPOINT ["entrypoint.sh"]
 
