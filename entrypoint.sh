@@ -27,7 +27,7 @@ echo "[PATHFINDER]" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "NAME                        =   ${NAME}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "[PATHFINDER.MAP.PRIVATE]" >> /var/www/pathfinder/conf/pathfinder.ini
-echo "LIFETIME                        =   ${PrivateLIFETIME}" >> /var/www/pathfinder/conf/pathfinder.ini
+echo "LIFETIME                         =   ${PrivateLIFETIME}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "MAX_COUNT                       =   ${PrivateMAX_COUNT}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "MAX_SHARED                        =   ${PrivateMAX_SHARED}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "MAX_SYSTEMS                        =   ${PrivateMAX_SYSTEMS}" >> /var/www/pathfinder/conf/pathfinder.ini
