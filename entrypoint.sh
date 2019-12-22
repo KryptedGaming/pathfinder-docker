@@ -56,8 +56,6 @@ echo "SEND_RALLY_DISCORD_ENABLED      =   ${CorpSEND_RALLY_DISCORD_ENABLED}" >> 
 echo "SEND_RALLY_Mail_ENABLED         =   ${CorpSEND_RALLY_Mail_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 
 
-
-echo never > /sys/kernel/mm/transparent_hugepage/enabled
 crontab /home/default_crontab
 service php7.2-fpm start
 service redis-server start
