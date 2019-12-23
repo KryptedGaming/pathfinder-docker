@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN adduser --disabled-password --gecos '' pathfinder 
 
 # INSTALL PACKAGES
-RUN apt-get update && \
+RUN apt-get update --fix-missing&& \
 	apt-get install -y software-properties-common && \
 	LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \ 
 	apt-get update && \
@@ -35,6 +35,7 @@ RUN git clone --branch $VERSION https://github.com/exodus4d/pathfinder.git /var/
 COPY ./config/composer.json /root/.composer/config.json
 RUN chown -R www-data:www-data /var/www/pathfinder
 RUN mkdir /tmp/cache/
+RUN mkdir /var/www/pathfinder/conf/
 RUN chmod -R 766 /tmp/cache/ /var/www/pathfinder/logs/
 
 # COMPOSER INSTALL
@@ -60,6 +61,7 @@ RUN crontab /home/default_crontab
 # COPY ENTRYPOINT
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh 
+
 
 ENTRYPOINT ["entrypoint.sh"]
 
