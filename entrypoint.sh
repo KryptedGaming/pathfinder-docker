@@ -2,7 +2,7 @@
 function replace_setting() {
     sed -i -E "s/$1/$2/g" $3
 }
-echo "Replacing settings" 
+echo "Replacing settings"
 replace_setting "^SERVER\s*=\s*.*$" "SERVER = ${SERVER}" "/var/www/pathfinder/app/environment.ini"
 replace_setting "^DB_PF_DNS\s*=\s*.*$" "DB_PF_DNS                         =   mysql:host=db;port=3306;" "/var/www/pathfinder/app/environment.ini"
 replace_setting "^DB_UNIVERSE_DNS\s*=\s*.*$" "DB_UNIVERSE_DNS                         =   mysql:host=db;port=3306;" "/var/www/pathfinder/app/environment.ini"
@@ -19,9 +19,10 @@ replace_setting "CHARACTER\s*=\s*.*" "CHARACTER          =   ${CHARACTER}" "/var
 replace_setting "CORPORATION\s*=\s*.*" "CORPORATION          =   ${CORPORATION}" "/var/www/pathfinder/app/pathfinder.ini"
 replace_setting "ALLIANCE\s*=\s*.*" "ALLIANCE          =   ${ALLIANCE}" "/var/www/pathfinder/app/pathfinder.ini"
 replace_setting "domain.com" "${URL}" "/etc/nginx/sites-available/default"
-if [ "${SETUP}" != "True" ]; then 
+replace_setting "web\s*=\s*.*" "web     = ${CronWebUI}" "/var/www/pathfinder/app/cron.ini"
+if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
-fi 
+fi
 
 if ["${UseRedis}" != "False"]; then
  replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
@@ -56,14 +57,15 @@ echo "SEND_RALLY_DISCORD_ENABLED      =   ${CorpSEND_RALLY_DISCORD_ENABLED}" >> 
 echo "SEND_RALLY_Mail_ENABLED         =   ${CorpSEND_RALLY_Mail_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 
 
-if [ "${AddAdminChar}" != "False" ]; then 
+if [ "${AddAdminChar}" != "False" ]; then
  echo "[PATHFINDER.ROLES]" >> /var/www/pathfinder/conf/pathfinder.ini
  echo "CHARACTER.0.ID = ${AdminCharID}" >> /var/www/pathfinder/conf/pathfinder.ini
  echo "CHARACTER.0.ROLE = SUPER" >> /var/www/pathfinder/conf/pathfinder.ini
-fi 
+fi
 
 
 crontab /home/default_crontab
+service cron start
 service php7.2-fpm start
 service redis-server start
 nginx -g "daemon off;"
