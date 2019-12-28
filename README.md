@@ -7,7 +7,7 @@ Dockerfile for running [Pathfinder](https://github.com/exodus4d/pathfinder), the
 
 # Setup
 1. Navigate to your Pathfinder page, go through setup.
-2. Create the databases.
+2. Create the databases using the database controls in the setup page.
 3. [Import static databse.](#Importing-static-databse)
 4. Import from ESI at the Cronjob section of the setup page.
 5. Build Systems data index under `Build search index` in the Administration section of the setup page.
