@@ -15,8 +15,8 @@ Dockerfile for running [Pathfinder](https://github.com/exodus4d/pathfinder), the
 6. You're live!
 
 # Importing static database
-1. Download the static database.
-2. Unzip `eve_universe.sql.zip`.
+1. Download the static database `wget https://github.com/exodus4d/pathfinder/raw/master/export/sql/eve_universe.sql.zip`.
+2. Unzip `eve_universe.sql.zip` `unzip eve_universe.sql.zip`.
 3. Copy the database into the db container `docker cp eve_universe.sql {full container name: eg. pathfinder-docker_db_1}:/eve_universe.sql`.
 4. Enter the db container `docker-compose exec db /bin/bash`.
 5. Make sure you have completed step 2 in Setup.
