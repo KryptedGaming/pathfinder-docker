@@ -15,13 +15,11 @@ Dockerfile for running [Pathfinder](https://github.com/exodus4d/pathfinder), the
 6. You're live!
 
 # Importing static database
-1. Download the static database `wget https://github.com/exodus4d/pathfinder/raw/master/export/sql/eve_universe.sql.zip`.
-2. Unzip `eve_universe.sql.zip` `unzip eve_universe.sql.zip`.
-3. Copy the database into the db container `docker cp eve_universe.sql {full container name: eg. pathfinder-docker_db_1}:/eve_universe.sql`.
-4. Enter the db container `docker-compose exec db /bin/bash`.
-5. Link static database `mysql -u root -p eve_universe< eve_universe.sql`.
-6. Enter the password listed in `.env`.
-7. Exit the db container `exit`.
-8. [Complete Setup.](#Setup)
+1. `wget https://github.com/exodus4d/pathfinder/raw/master/export/sql/eve_universe.sql.zip`
+2. `unzip eve_universe.sql.zip`
+3. `docker cp eve_universe.sql "$(sudo docker-compose ps | grep db | awk '{ print $1}'):/eve_universe.sql"`
+4. `sudo docker-compose exec db sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" eve_universe < /eve_universe.sql'`
+5. **Optional** `rm eve_universe.sql*`
+6. [Complete Setup.](#Setup)
 
 Feel free to contribute, there are many improvements that still need to be made.
