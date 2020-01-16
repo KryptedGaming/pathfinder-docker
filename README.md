@@ -4,6 +4,7 @@ Dockerfile for running [Pathfinder](https://github.com/exodus4d/pathfinder), the
 1. Clone `docker-compose.yml` file (`wget https://raw.githubusercontent.com/KryptedGaming/pathfinder-docker/master/docker-compose.yml`)
 2. Clone the example `.env` file (`wget https://raw.githubusercontent.com/KryptedGaming/pathfinder-docker/master/.env`)
 3. Fill out the `.env` file and start up your instance with `docker-compose up -d`
+
 You may need to create the databases for your MYSQL image if using a fresh compose. 
 * `sudo docker-compose exec db /bin/bash`
 * `mysql -uroot -p`
