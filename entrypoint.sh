@@ -24,9 +24,23 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi
 
-if ["${UseRedis}" != "False"]; then
- replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
+if [ "${WSS}" == "True" ]; then
+ replace_setting ";SOCKET_HOST" "SOCKET_HOST" "/var/www/pathfinder/app/environment.ini"
+ replace_setting ";SOCKET_PORT" "SOCKET_PORT" "/var/www/pathfinder/app/environment.ini"
 fi
+
+if [ "${USE_LOCAL_SSL}" == "True" ]; then
+ # update default file
+ replace_setting "#listen 443 ssl http2;" "listen 443 ssl http2;" "/etc/nginx/sites-enabled/deafult"
+ replace_setting "#ssl_certificate cert_file" "ssl_certificate ${SSL_CERTIFICATE_PATH}" "/etc/nginx/sites-enabled/deafult"
+ replace_setting "#ssl_certificate_key cert_file" "ssl_certificate_key ${SSL_CERTIFICATE_PATH}" "/etc/nginx/sites-enabled/deafult"
+fi
+
+# SMTP
+# if [ "${CUSTOM_SMTP}" == "True" ]; then
+#  replace_setting ";SOCKET_HOST" "SOCKET_HOST" "/var/www/pathfinder/app/environment.ini"
+#  replace_setting ";SOCKET_PORT" "SOCKET_PORT" "/var/www/pathfinder/app/environment.ini"
+# fi
 
 echo "[PATHFINDER]" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "NAME                        =   ${NAME}" >> /var/www/pathfinder/conf/pathfinder.ini
@@ -63,9 +77,10 @@ if [ "${AddAdminChar}" != "False" ]; then
  echo "CHARACTER.0.ROLE = SUPER" >> /var/www/pathfinder/conf/pathfinder.ini
 fi
 
-
+echo "Starting Services"
 crontab /home/default_crontab
 service cron start
 service php7.2-fpm start
 service redis-server start
+service pathfinder-websocket start
 nginx -g "daemon off;"

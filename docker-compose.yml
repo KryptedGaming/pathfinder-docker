@@ -1,4 +1,4 @@
-version: '2.0'
+version: '3'
 
 services:
     db:
@@ -12,10 +12,16 @@ services:
           MYSQL_USER: "${MYSQL_USER}"
 
     pathfinder:
-        image: kryptedgaming/pathfinder:latest
+        build:
+          context: .
+          dockerfile: Dockerfile
+        #image: netmonster/pathfinder:latest
         env_file: .env
         ports:
             - "8000:80"
+            - "8020:8020"
+            - "8030:8030"
+            - "443:443"
 
 volumes:
     database: {}

@@ -1,6 +1,21 @@
+  # WebSockets ===============================================================================================================
+  map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+  }
+
+  upstream ws_dev_map_update {
+    server 127.0.0.1:8020;
+  }
+
+  upstream ws_prod_map_update {
+    server 127.0.0.1:8020;
+  }
+
 server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
+	#listen 443 ssl http2;
 
 	root /var/www/pathfinder/;
 
@@ -27,4 +42,25 @@ server {
 
 	    include fastcgi_params;
 	}
+
+	# WebSocket ReverseProxy setup [optional]
+  	location /ws/map/update {
+		proxy_pass http://ws_prod_map_update;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection $connection_upgrade;
+		proxy_set_header Host $host;
+
+		proxy_set_header X-Forwarded-For $remote_addr;
+		proxy_set_header X-Forwarded-Host $host;
+		proxy_set_header X-Forwarded-Port $server_port;
+		proxy_set_header X-Forwarded-Proto $scheme;
+
+		proxy_read_timeout 8h;
+		proxy_send_timeout 5s;
+		proxy_connect_timeout 3s;
+		proxy_buffering off;
+  	}
+	#ssl_certificate cert_file;
+    #ssl_certificate_key cert_key;
 }
