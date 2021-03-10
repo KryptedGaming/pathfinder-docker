@@ -24,7 +24,7 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi
 
-if ["${UseRedis}" != "False"]; then
+if [ "${UseRedis}" != "False" ]; then
  replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
 fi
 
