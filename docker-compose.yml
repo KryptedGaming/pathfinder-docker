@@ -12,10 +12,10 @@ services:
           MYSQL_USER: "${MYSQL_USER}"
 
     pathfinder:
-        build:
-          context: .
-          dockerfile: Dockerfile
-        #image: netmonster/pathfinder:latest
+        #build:
+          #context: .
+          #dockerfile: Dockerfile
+        image: netmonster/pathfinder-docker:latest
         env_file: .env
         ports:
             - "8000:80"

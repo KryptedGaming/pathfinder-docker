@@ -7,7 +7,7 @@ RUN adduser --disabled-password --gecos '' pathfinder
 
 
 # INSTALL PACKAGES
-RUN apt-get update --fix-missing&& \
+RUN apt-get update --fix-missing && \
 	apt-get install -y software-properties-common && \
 	LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \ 
 	apt-get update && \

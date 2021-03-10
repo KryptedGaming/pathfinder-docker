@@ -24,16 +24,13 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi
 
-if [ "${WSS}" == "True" ]; then
- replace_setting ";SOCKET_HOST" "SOCKET_HOST" "/var/www/pathfinder/app/environment.ini"
- replace_setting ";SOCKET_PORT" "SOCKET_PORT" "/var/www/pathfinder/app/environment.ini"
+if ["${UseRedis}" != "False"]; then
+ replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
 fi
 
-if [ "${USE_LOCAL_SSL}" == "True" ]; then
- # update default file
- replace_setting "#listen 443 ssl http2;" "listen 443 ssl http2;" "/etc/nginx/sites-enabled/deafult"
- replace_setting "#ssl_certificate cert_file" "ssl_certificate ${SSL_CERTIFICATE_PATH}" "/etc/nginx/sites-enabled/deafult"
- replace_setting "#ssl_certificate_key cert_file" "ssl_certificate_key ${SSL_CERTIFICATE_PATH}" "/etc/nginx/sites-enabled/deafult"
+if [ "${UseWebSockets}" == "True" ]; then
+ replace_setting ";SOCKET_HOST" "SOCKET_HOST" "/var/www/pathfinder/app/environment.ini"
+ replace_setting ";SOCKET_PORT" "SOCKET_PORT" "/var/www/pathfinder/app/environment.ini"
 fi
 
 # SMTP

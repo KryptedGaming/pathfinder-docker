@@ -3,7 +3,7 @@
         "preferred-install": "dist",
         "github-protocols": ["https","http"],
         "github-oauth": {
-            "github.com": "906ec0ba7b8bd8499dafea065b4a87b234aaac70"
+            "github.com": "009dd6c461dd25e6b8d0e46be2d984acefdcbac0"
         }
     }
 }
