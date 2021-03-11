@@ -47,7 +47,7 @@ RUN mkdir /tmp/cache/
 RUN mkdir /var/www/pathfinder/conf/
 RUN chmod -R 766 /tmp/cache/ /var/www/pathfinder/logs/
 
-# COMPOSER INSTALL - NOTE: there is an issue with composer 1.10.x and above so we need to use version 1.9.3
+# COMPOSER INSTALL - NOTE: there is an issue with composer 1.10.x and above working withe Pathfinder v 2.0 so we need to use version 1.9.3
 RUN curl -sS https://getcomposer.org/installer | php -- --version=1.9.3
 RUN mv composer.phar /usr/local/bin/composer
 RUN composer install -d /var/www/pathfinder/
