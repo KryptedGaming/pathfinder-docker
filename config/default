@@ -15,8 +15,7 @@
 server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
-	#listen 443 ssl http2;
-
+	
 	root /var/www/pathfinder/;
 
 	# Add index.php to the list if you are using PHP
@@ -61,6 +60,4 @@ server {
 		proxy_connect_timeout 3s;
 		proxy_buffering off;
   	}
-	#ssl_certificate cert_file;
-    #ssl_certificate_key cert_key;
 }
