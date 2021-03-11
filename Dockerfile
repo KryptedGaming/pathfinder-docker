@@ -1,11 +1,13 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN adduser --disabled-password --gecos '' pathfinder 
 
+
+
 # INSTALL PACKAGES
-RUN apt-get update --fix-missing&& \
+RUN apt-get update --fix-missing && \
 	apt-get install -y software-properties-common && \
 	LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \ 
 	apt-get update && \
@@ -21,19 +23,26 @@ RUN apt-get install -y \
 	php7.2-mbstring \ 
 	php7.2-curl \ 
 	php7.2-redis \
+	php7.2-dev \
 	gzip \ 
 	wget \
 	nginx \ 
 	zip \ 
 	git \ 
 	redis-server \
-	curl 
+	curl \
+	cron 
+
+# ADD NODE
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+RUN apt-get install -y \ 
+	nodejs
 
 # COPY PATHFINDER
 ARG VERSION 
 RUN mkdir /var/www/pathfinder
 RUN mkdir /var/log/cron-www/
-RUN git clone --branch $VERSION https://github.com/exodus4d/pathfinder.git /var/www/pathfinder
+RUN git clone --branch master https://github.com/exodus4d/pathfinder.git /var/www/pathfinder
 COPY ./config/composer.json /root/.composer/config.json
 RUN chown -R www-data:www-data /var/www/pathfinder
 RUN mkdir /tmp/cache/
@@ -41,9 +50,21 @@ RUN mkdir /var/www/pathfinder/conf/
 RUN chmod -R 766 /tmp/cache/ /var/www/pathfinder/logs/
 
 # COMPOSER INSTALL
-RUN	curl --silent --show-error https://getcomposer.org/installer | php 
+RUN curl -sS https://getcomposer.org/installer | php -- --version=1.8.6
 RUN mv composer.phar /usr/local/bin/composer
 RUN composer install -d /var/www/pathfinder/
+
+# COPY PATHFINDER Websocket Server
+RUN mkdir /var/www/pathfinder_websocket
+RUN git clone https://github.com/exodus4d/pathfinder_websocket.git /var/www/pathfinder_websocket
+RUN chown -R www-data:www-data /var/www/pathfinder_websocket
+
+# COPY PATHFINDER Websocket Server service script
+COPY ./config/pathfinder-websocket /etc/init.d/
+RUN chmod +x /etc/init.d/pathfinder-websocket
+
+# COMPOSER INSTALL Pathfinder Websocket server
+RUN composer install -d /var/www/pathfinder_websocket/
 
 # CONFIGURE NGINX
 COPY ./config/default /etc/nginx/sites-available/
@@ -64,7 +85,6 @@ RUN crontab /home/default_crontab
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh 
 
-
 ENTRYPOINT ["entrypoint.sh"]
 
-# CMD service php7.2-fpm start && service redis-server start && nginx -g "daemon off;"
+
