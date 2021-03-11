@@ -20,7 +20,7 @@ services:
         env_file: .env
         ports:
             - "8000:80"
-            - "8020:8020"
+            - "8020:8020" 
 
 volumes:
     database: {}

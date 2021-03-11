@@ -37,7 +37,7 @@ RUN apt-get install -y \
 	nodejs
 
 # COPY PATHFINDER
-ARG VERSION 
+ARG VERSION
 RUN mkdir /var/www/pathfinder
 RUN mkdir /var/log/cron-www/
 RUN git clone --branch $VERSION https://github.com/exodus4d/pathfinder.git /var/www/pathfinder

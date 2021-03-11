@@ -39,6 +39,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          build-args: version=master 
+          build-args: VERSION=master 
           push: true
           tags: netmonster/pathfinder-docker:latest
