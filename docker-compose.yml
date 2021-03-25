@@ -1,4 +1,4 @@
-version: '2.0'
+version: '3'
 
 services:
     db:
@@ -6,16 +6,21 @@ services:
         volumes:
             - database:/var/lib/mysql
             - ./config/start.sql:/docker-entrypoint-initdb.d/start.sql
+            - ./config/eve_universe.sql:/docker-entrypoint-initdb.d/eve_universe.sql
         restart: always
         environment:
           MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
           MYSQL_USER: "${MYSQL_USER}"
 
     pathfinder:
-        image: kryptedgaming/pathfinder:latest
+        # build:
+        #   context: .
+        #   dockerfile: Dockerfile
+        image: netmonster/pathfinder-docker:latest
         env_file: .env
         ports:
             - "8000:80"
+            - "8020:8020" 
 
 volumes:
     database: {}

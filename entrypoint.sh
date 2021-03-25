@@ -24,8 +24,23 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi
 
-if [ "${UseRedis}" != "False" ]; then
+if ["${UseRedis}" != "False"]; then
  replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
+fi
+
+if [ "${UseWebSockets}" != "False"]; then
+ replace_setting ";SOCKET_HOST" "SOCKET_HOST" "/var/www/pathfinder/app/environment.ini"
+ replace_setting ";SOCKET_PORT" "SOCKET_PORT" "/var/www/pathfinder/app/environment.ini"
+fi
+
+if [ "${UseCustomSmtpServer}" != "False"]; then
+ replace_setting "CUSTOM_SMTP_HOST\s*=\s*.*" "SMTP_HOST                   =   ${CUSTOM_SMTP_HOST}" "/var/www/pathfinder/app/environment.ini"
+ replace_setting "CUSTOM_SMTP_PORT\s*=\s*.*" "SMTP_PORT                   =   ${CUSTOM_SMTP_PORT}" "/var/www/pathfinder/app/environment.ini"
+ replace_setting "CUSTOM_SMTP_SCHEME\s*=\s*.*" "SMTP_SCHEME                 =  ${CUSTOM_SMTP_PORT}" "/var/www/pathfinder/app/environment.ini"
+ replace_setting "CUSTOM_SMTP_USER\s*=\s*.*" "SMTP_USER                =  ${CUSTOM_SMTP_USER}" "/var/www/pathfinder/app/environment.ini"
+ replace_setting "CUSTOM_SMTP_PASS\s*=\s*.*" "SMTP_PASS                =  ${CUSTOM_SMTP_PASS}" "/var/www/pathfinder/app/environment.ini"
+ replace_setting "CUSTOM_SMTP_FROM\s*=\s*.*" "SMTP_FROM                =  ${CUSTOM_SMTP_FROM}" "/var/www/pathfinder/app/environment.ini"
+ replace_setting "CUSTOM_SMTP_ERROR\s*=\s*.*" "SMTP_ERROR                =  ${CUSTOM_SMTP_ERROR}" "/var/www/pathfinder/app/environment.ini"
 fi
 
 echo "[PATHFINDER]" >> /var/www/pathfinder/conf/pathfinder.ini
@@ -56,16 +71,16 @@ echo "SEND_HISTORY_DISCORD_ENABLED    =   ${CorpSEND_HISTORY_DISCORD_ENABLED}" >
 echo "SEND_RALLY_DISCORD_ENABLED      =   ${CorpSEND_RALLY_DISCORD_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 echo "SEND_RALLY_Mail_ENABLED         =   ${CorpSEND_RALLY_Mail_ENABLED}" >> /var/www/pathfinder/conf/pathfinder.ini
 
-
 if [ "${AddAdminChar}" != "False" ]; then
  echo "[PATHFINDER.ROLES]" >> /var/www/pathfinder/conf/pathfinder.ini
  echo "CHARACTER.0.ID = ${AdminCharID}" >> /var/www/pathfinder/conf/pathfinder.ini
  echo "CHARACTER.0.ROLE = SUPER" >> /var/www/pathfinder/conf/pathfinder.ini
 fi
 
-
+echo "Starting Services"
 crontab /home/default_crontab
 service cron start
 service php7.2-fpm start
 service redis-server start
+service pathfinder-websocket start
 nginx -g "daemon off;"
