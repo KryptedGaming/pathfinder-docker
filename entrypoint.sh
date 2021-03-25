@@ -24,16 +24,16 @@ if [ "${SETUP}" != "True" ]; then
  replace_setting "^GET @setup.*$" "" "/var/www/pathfinder/app/routes.ini"
 fi
 
-if ["${UseRedis}" != "False"]; then
+if [ "${UseRedis}" != "False" ]; then
  replace_setting "CACHE\s*=\s*.*" "CACHE           =   redis=localhost:6379:1" "/var/www/pathfinder/app/config.ini"
 fi
 
-if [ "${UseWebSockets}" != "False"]; then
+if [ "${UseWebSockets}" != "False" ]; then
  replace_setting ";SOCKET_HOST" "SOCKET_HOST" "/var/www/pathfinder/app/environment.ini"
  replace_setting ";SOCKET_PORT" "SOCKET_PORT" "/var/www/pathfinder/app/environment.ini"
 fi
 
-if [ "${UseCustomSmtpServer}" != "False"]; then
+if [ "${UseCustomSmtpServer}" != "False" ]; then
  replace_setting "CUSTOM_SMTP_HOST\s*=\s*.*" "SMTP_HOST                   =   ${CUSTOM_SMTP_HOST}" "/var/www/pathfinder/app/environment.ini"
  replace_setting "CUSTOM_SMTP_PORT\s*=\s*.*" "SMTP_PORT                   =   ${CUSTOM_SMTP_PORT}" "/var/www/pathfinder/app/environment.ini"
  replace_setting "CUSTOM_SMTP_SCHEME\s*=\s*.*" "SMTP_SCHEME                 =  ${CUSTOM_SMTP_PORT}" "/var/www/pathfinder/app/environment.ini"
