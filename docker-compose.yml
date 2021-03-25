@@ -16,7 +16,7 @@ services:
         # build:
         #   context: .
         #   dockerfile: Dockerfile
-        image: netmonster/pathfinder-docker:latest
+        image: kryptedgaming/pathfinder:latest
         env_file: .env
         ports:
             - "8000:80"
