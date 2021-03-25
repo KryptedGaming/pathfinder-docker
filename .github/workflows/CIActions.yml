@@ -41,4 +41,4 @@ jobs:
           context: .
           build-args: VERSION=master 
           push: true
-          tags: netmonster/pathfinder-docker:latest
+          tags: kryptedgaming/pathfinder:latest
